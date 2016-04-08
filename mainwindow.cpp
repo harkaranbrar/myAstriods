@@ -42,6 +42,12 @@ void MainWindow::StartGame() {
     view->resize(1024, 768);
     setCentralWidget(view);
     view->show();
+
+    //fixes the size of the window
+    view->setFixedSize(800,600);
+    scene->setSceneRect(0,0,800,600);
+    //play get center in window to get its position
+    ply->setPos(view->width()/2,view->height() - ply->boundingRect().height());
 }
 
 
