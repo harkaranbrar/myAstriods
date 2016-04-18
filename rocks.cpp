@@ -4,16 +4,32 @@
 #include <QGraphicsScene>
 #include <QDebug>
 #include <stdlib.h>
+#include "mainwindow.h"
+
+
+extern MainWindow * game; //Global object
+
+//================================== Rocks Constructor =========================================//
+
+
 rocks::rocks():QObject()
 {
-    int random_number = rand () % 700;
-    //set random position
-    setPos(random_number,0);
- //draw the rocks
-    setRect(0,0,50,50);
-    //connect the square rocks
 
-    QTimer * timer = new QTimer();
+//=================Random number for x ========================//
+
+    int random_number = rand () % 700;
+
+//================= set Random Position =======================//
+
+    setPos(random_number,0);
+
+//================== Draw the Rocks ===========================//
+
+    setRect(0,0,50,50);
+
+//============= Create a timer or Connect the rocks============//
+
+    QTimer * timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(move()));
 
     timer->start(50);
@@ -21,21 +37,32 @@ rocks::rocks():QObject()
 
 }
 
+//================================== Move Function of Rocks =========================================//
+
 void rocks::move()
 {
+
+//================== Set the position of rocks===========================//
+
     setPos(x(), y()+5);
-   // to delete the rocks from scene
-//    if (pos().y() +rect().height() >650){
-//        scene()->removeItem(this);
-//        delete this;
-//        qDebug() << "rocks deleted downwards";
 
+//================== check to remove the rock ==========================//
 
-//    }
+    if (pos().y() > 600)
+        {
+
+            game->health->decrease(); //decrease the health
+            scene()->removeItem(this); //remove from the scene
+            delete this; //delete the rocks
+
+        }
+
 
 }
+
+//================================== Spawn and create a rocks=========================================//
+
 void rocks::spawn(){
-    //create a rock
-    rocks * rock = new rocks();
-    scene()->addItem(rock);
+    rocks * rock = new rocks();//create a rock
+    scene()->addItem(rock);//added to scene
 }
