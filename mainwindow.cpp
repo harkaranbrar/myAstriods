@@ -26,9 +26,9 @@ MainWindow::~MainWindow()
 //========================== Mouse press events ==============================//
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-//    ply->setFocus();
+    ply->setFocus();
 //    qDebug() << "in focus";
-//    return;
+    return;
 }
 
 //==========================Key Press events==============================//
@@ -50,6 +50,11 @@ void MainWindow::StartGame() {
     ply = new Player;
     ply->setFlag(QGraphicsItem::ItemIsFocusable);
     ply->QGraphicsItem::setFocus();
+   // for(int i=0; i<5; i++)
+   // {
+    //    rocks *rock = new rocks;
+    //    scene->addItem(rock);
+   // }
     scene->addItem(ply);
     //===================================================================================//
 
@@ -89,7 +94,7 @@ void MainWindow::StartGame() {
         scene->addItem(rock);
         QTimer * timer = new QTimer();
         QObject::connect(timer,SIGNAL(timeout()),rock,SLOT(spawn()));
-        timer->start(2000);
+        timer->start(1000);
 //================================================================================//
 
 }

@@ -13,9 +13,15 @@ class rocks :public QObject , public QGraphicsRectItem
     Q_OBJECT
 public:
     rocks();
+    rocks(int size);
 public slots:
     void move();
     void spawn();
+    void split();
+private:
+    int size;
+    qreal xvel;
+    qreal yvel;
 };
 
 #endif // ROCKS_H
