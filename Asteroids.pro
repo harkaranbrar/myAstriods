@@ -20,6 +20,7 @@ SOURCES += main.cpp\
     rocks.cpp \
     Score.cpp \
     Health.cpp \
+    dialog.cpp
 
 HEADERS  += mainwindow.h \
     player.h \
@@ -27,9 +28,11 @@ HEADERS  += mainwindow.h \
     rocks.h \
     Score.h \
     Health.h \
+    dialog.h
 
 
 FORMS    += mainwindow.ui \
+    dialog.ui
 
 
 RESOURCES += \

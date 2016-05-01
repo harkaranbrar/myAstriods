@@ -1,5 +1,5 @@
 #include "Score.h"
-#include <QFont>
+#include"mainwindow.h"
 
 //======================== Score Constructor  =======================//
 

@@ -96,13 +96,13 @@ void MainWindow::StartGame() {
 
 
  //===========================Create a Rock add to scene===========================//
-        rocks *rock = new rocks;
+        rock = new rocks;
         scene->addItem(rock);
         QTimer * timers = new QTimer();
         QObject::connect(timers,SIGNAL(timeout()),rock,SLOT(spawn()));
         timers->start(5000);
 
-        rocks *rock1 = new rocks;
+        rock1 = new rocks;
         scene->addItem(rock1);
         QTimer * timer = new QTimer();
         QObject::connect(timer,SIGNAL(timeout()),rock1,SLOT(spawn()));
@@ -111,8 +111,8 @@ void MainWindow::StartGame() {
 
 //================================================================================//
 
-                                     QMediaPlayer * music = new QMediaPlayer();
-                                    music->setMedia(QUrl("qrc:/sounds/time-was-flying-by.mp3"));
+                                    music = new QMediaPlayer();
+                                    music->setMedia(QUrl("qrc:/sounds/Music.mp3"));
 
                                     if (music->state() == QMediaPlayer::PlayingState){
                                         music->setPosition(0);
@@ -121,6 +121,19 @@ void MainWindow::StartGame() {
                                         music->play();
                                     }
 
+}
+// ======================= to reset the game ====================================//
+void MainWindow::reset()
+{
+     music->stop();
+     StartGame();
+}
+
+
+// ======================= to remove the items ====================================//
+void MainWindow::removeItem()
+{
+    scene->removeItem(ply);
 }
 
 
@@ -140,7 +153,7 @@ void MainWindow::on_QuitButton_clicked()
 //==========================File menu to Start a new game==============================//
 void MainWindow::on_New_triggered()
 {
-    StartGame();
+    reset();
 }
 //==========================File menu to Close a new game==============================//
 void MainWindow::on_Close_triggered()
