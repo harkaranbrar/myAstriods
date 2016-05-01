@@ -11,8 +11,8 @@ Health::Health(QGraphicsItem *parent): QGraphicsTextItem(parent){
     //======================== Draw the Health =======================//
 
     setPlainText(QString("Health: ") + QString::number(health)); // Health: 3
-    setDefaultTextColor(Qt::blue);//set color blue
-    setFont(QFont("times",16)); //text style
+    setDefaultTextColor(Qt::red);//set color blue
+    setFont(QFont("Helvetica [Cronyx]",18)); //text style
 }
 
 //==========================Decrease funtion of health =======================//

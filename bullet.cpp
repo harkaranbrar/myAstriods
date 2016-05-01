@@ -12,63 +12,67 @@ extern MainWindow * game; // Global
 
 //============================================================================================//
 
-bullet::bullet() :QObject()
+bullet::bullet(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent)
 {
 
-    //==========================Draw the Bullet =======================//
+                //==========================Draw the Bullet =======================//
 
-        setRect (0,0,2,10);
+                setPixmap(QPixmap(":/img/bullet1.png"));
 
-    //================ Create a Timer and Connect the Bullet =============//
+                //================ Create a Timer and Connect the Bullet =============//
 
-        QTimer * timer = new QTimer();
-        connect(timer,SIGNAL(timeout()),this,SLOT(move()));
+                QTimer * timer = new QTimer();
+                connect(timer,SIGNAL(timeout()),this,SLOT(move()));
 
-        timer->start(50);
+                timer->start(33.33);
+                //qDebug() << "bullet is created";
 }
 
-//============================ Bullet move Function ===========================================//
+
+
+
+                //============================ Bullet move Function =======================//
 
 
 void bullet::move(){
 
 
-    //=============================Movement of Bullet ================================//
+//=============================Movement of Bullet ================================//
 
-    setPos(x()+(10*qSin( 0.0174533*rotation() )),y()-(10*qCos( 0.0174533*rotation() )));
+setPos(x()+(10*qSin( 0.0174533*rotation() )),y()-(10*qCos( 0.0174533*rotation() )));
 
-   //===========================Delete the bullet from Memory=========================//
+//===========================Delete the bullet from Memory=========================//
 
-    //=====Delete the bullet from Upwards=====//
+                    //=====Delete the bullet from Upwards=====//
 
-    if (pos().y() +rect().height() < 0){
-        scene()->removeItem(this);
-        delete this;
-        //qDebug() << "bullet deleted upwards";
-    }
+                    if (pos().y()  < 0){
+                    scene()->removeItem(this);
+                    delete this;
+                    //qDebug() << "bullet deleted upwards";
+                    }
 
-    //=====Delete the bullet from downwards=====//
+                    //=====Delete the bullet from downwards=====//
 
-    else if (pos().y() +rect().height() >650)  {
-        scene()->removeItem(this);
-        delete this;
-        //qDebug() << "bullet deleted downwards";
-    }
+                    else if (pos().y()  >650)  {
+                    scene()->removeItem(this);
+                    delete this;
+                    //qDebug() << "bullet deleted downwards";
+                    }
 
-    //=====Delete the bullet from left=====//
+                    //=====Delete the bullet from left=====//
 
-    else if (pos().x() +rect().height() < 0)  {
-        scene()->removeItem(this);
-        delete this;
-        //qDebug() << "bullet deleted left";
-    }
+                    else if (pos().x()  < 0)  {
+                    scene()->removeItem(this);
+                    delete this;
+                    //qDebug() << "bullet deleted left";
+                    }
 
-    //=====Delete the bullet from right=====//
+                    //=====Delete the bullet from right=====//
 
-    else if (pos().x() +rect().height() >850)  {
-        scene()->removeItem(this);
-        delete this;
-        //qDebug() << "bullet deleted right";
-    }
+                    else if (pos().x()  >850)  {
+                    scene()->removeItem(this);
+                    delete this;
+                    //qDebug() << "bullet deleted right";
+                    }
 }
 //============================================================================================//

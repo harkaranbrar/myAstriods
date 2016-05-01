@@ -9,18 +9,18 @@
 
 //================================== Player Constructor =========================================//
 
-Player::Player()
+Player::Player(QGraphicsItem *parent): QGraphicsPixmapItem(parent)
 {
 
-    xvel = 0;
-    yvel = 0;
-    angle = 0;
-    //setRotation(angle);
-    //setPos(50,50);
+            bulletsound = new QMediaPlayer();
+            bulletsound->setMedia(QUrl("qrc:/sounds/SHOOTIN3.wav"));
 
     QTimer * timer = new QTimer();
     connect(timer,SIGNAL(timeout()),this, SLOT (move()));
     timer->start(33.33);
+
+    setPixmap(QPixmap(":/img/Ship.png"));
+
 }
 
 //==============================================================================================//
@@ -33,12 +33,7 @@ Player::~Player() {
 
 //==============================================================================================//
 
-void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
-    painter->setBrush(Qt::SolidPattern);
-    painter->drawLine(-9,12.5,9,12.5);
-    painter->drawLine(-9,12.5,0,-12.5);
-    painter->drawLine(9,12.5,0,-12.5);
-}
+
 
 //================================ Player Move Function ==================================//
 
@@ -66,62 +61,79 @@ void Player::move() {
 //================================== Key press Event funtion ========================================//
 //=========================Read a key from key board to move the player======================//
 
-void Player::keyPressEvent(QKeyEvent *event) {
+void Player::keys() {
 
-//============================== player change angle to left ==============================//
+    foreach(Qt::Key k, keysPressed)
+    {
+       switch(k)
+       {
+       case Qt::Key_Up:
+       //case Qt::Key_W:
+       {
+           xvel += 0.5*(qSin( 0.0174533*rotation() ));
+           yvel += -0.5*(qCos( 0.0174533*rotation() ));
+           //qDebug() << "key up";
+           break;
+       }
 
 
-    if (event->key()== Qt::Key_Left){
-        setRotation(rotation() - 10);
 
-    }
+       case Qt::Key_Left:
+     //  case Qt::Key_A:
+       {
+            setRotation(rotation() -15);
+            break;
+       }
 
- //============================== player change angle to Right ==============================//
+       case Qt::Key_Right:
+      // case Qt::Key_D:
+       {
+           setRotation(rotation() +15);
+           break;
+       }
 
-    else if (event->key()== Qt::Key_Right){
-        setRotation(rotation() + 10);
-    }
 
-//============================== player move Forward ===================================//
-
-    else if (event->key()== Qt::Key_Up){
-        // setPos(x()+(10*qSin( 0.0174533*rotation() )),y()-(10*qCos( 0.0174533*rotation() )));
-        xvel += 0.25*(qSin( 0.0174533*rotation() ));
-        yvel += -0.25*(qCos( 0.0174533*rotation() ));
-    }
-
- //============================== player move Backward ===================================//
-
-    else if (event->key()== Qt::Key_Down){
-        //setPos(x(),y()+10);
-    }
-
-// ============================== Create and shoot bullet ==================================//
-
-    else if (event->key()== Qt::Key_Space){
-        angle = rotation();
-        bullet * bull = new bullet(); // create a new bullet
-        bull->setPos(x(),y()); // position of bullet
-        bull->setRotation(angle); //set angle of bullet
-        scene()->addItem(bull); //added to scene
-        //qDebug() << "bullet is created";
+       case Qt::Key_Space:
+       {
+           // create a bullet
+           angle = rotation();
+           bullet * bull = new bullet(); // create a new bullet
+           bull->setPos(x()+20,y()+20); // position of bullet
+           bull->QGraphicsItem::setTransformOriginPoint(10,10);
+           bull->setRotation(angle); //set angle of bullet
+           scene()->addItem(bull); //added to scene
+ //================================== bullet fire sound ========================================//
+                if (bulletsound->state() == QMediaPlayer::PlayingState){
+                bulletsound->setPosition(0);
+                }
+                else if (bulletsound->state() == QMediaPlayer::StoppedState){
+                bulletsound->play();
+                }
+ //=============================================================================================//
+           break;
+           }
+        default:
+       {
+           // prevents 430 warnings
+           break;
+       }
+       }
     }
 }
 
-//==========================================================================================//
 
-QRectF Player::boundingRect() const
+
+
+void Player::keyPressEvent(QKeyEvent *event)
 {
-    qreal adjust = 0.5;
-    return QRectF(-18 - adjust, -22 - adjust,
-                  36 + adjust, 60 + adjust);
+    keysPressed += (Qt::Key)event->key();
+    QTimer::singleShot(10, this, SLOT(keys()));
+
 }
 
-QPainterPath Player::shape() const
+
+void Player::keyReleaseEvent(QKeyEvent *event)
 {
-    QPainterPath path;
-    path.addRect(-10, -20, 20, 40);
-    return path;
+    keysPressed -= (Qt::Key)event->key();
+    QTimer::singleShot(10, this, SLOT(keys()));
 }
-
-

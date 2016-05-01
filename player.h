@@ -8,33 +8,32 @@
 #include <QGraphicsItem>
 #include <QStyleOption>
 #include <QKeyEvent>
+#include <QTimer>
+#include <QMediaPlayer>
+#include <QGraphicsPixmapItem>
 //#include <qlabel.h>
 
 
-class Player : public QObject, public QGraphicsItem
+class Player : public QObject, public QGraphicsPixmapItem
 {
 
 Q_OBJECT
 public:
-    Player();
+    Player(QGraphicsItem * parent=0);
     virtual ~Player();
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void keyPressEvent(QKeyEvent *event);
-    QRectF boundingRect() const;
-    QPainterPath shape() const;
-
-
+    void keyReleaseEvent(QKeyEvent *event);
 
 public slots:
     void move();
-    //void spawn();
+    void keys();
 
  private:
-
-        qreal angle;
-        qreal speed;
-        qreal xvel;
-        qreal yvel;
+    QMediaPlayer * bulletsound;
+    QSet<Qt::Key> keysPressed;
+        qreal angle = 0;
+        qreal xvel  = 0;
+        qreal yvel  = 0;
 
 };
 

@@ -8,6 +8,9 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <rocks.h>
+#include <QMediaPlayer>
+#include <QBrush>
+#include <QImage>
 
 //==========================Constructor to Create the window==============================//
 MainWindow::MainWindow(QWidget *parent) :
@@ -45,6 +48,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::StartGame() {
    //==========================Create a Scene========================//
     scene = new QGraphicsScene();
+    scene->setBackgroundBrush(QBrush(QImage(":/img/backg.jpg")));
 
  //============Create a Player and make it Focusable and added to scene==================//
     ply = new Player;
@@ -85,6 +89,8 @@ void MainWindow::StartGame() {
  //=================player get center in window to get its position==================//
 
     ply->setPos(view->width()/2,view->height()/2);
+    ply->QGraphicsItem::setTransformOriginPoint(30,30);
+    ply->setTransformationMode(Qt::SmoothTransformation);
 
  //==================================================================================//
 
@@ -92,12 +98,31 @@ void MainWindow::StartGame() {
  //===========================Create a Rock add to scene===========================//
         rocks *rock = new rocks;
         scene->addItem(rock);
+        QTimer * timers = new QTimer();
+        QObject::connect(timers,SIGNAL(timeout()),rock,SLOT(spawn()));
+        timers->start(5000);
+
+        rocks *rock1 = new rocks;
+        scene->addItem(rock1);
         QTimer * timer = new QTimer();
-        QObject::connect(timer,SIGNAL(timeout()),rock,SLOT(spawn()));
-        timer->start(1000);
+        QObject::connect(timer,SIGNAL(timeout()),rock1,SLOT(spawn()));
+        timer->start(5000);
+
+
 //================================================================================//
 
+                                     QMediaPlayer * music = new QMediaPlayer();
+                                    music->setMedia(QUrl("qrc:/sounds/time-was-flying-by.mp3"));
+
+                                    if (music->state() == QMediaPlayer::PlayingState){
+                                        music->setPosition(0);
+                                    }
+                                    else if (music->state() == QMediaPlayer::StoppedState){
+                                        music->play();
+                                    }
+
 }
+
 
 
 
