@@ -43,15 +43,17 @@ private:
 
 
 public slots:
-    void StartGame();
+    void StartGame(bool m);
     void reset();
     void removeItem();
+    void animation();
 
 private slots:
     void on_PlayButton_clicked();
     void on_QuitButton_clicked();
     void on_New_triggered();
     void on_Close_triggered();
+    void on_multiplayerButton_clicked();
 };
 
 #endif // MAINWINDOW_H

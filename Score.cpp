@@ -8,7 +8,7 @@ Score::Score(QGraphicsItem *parent): QGraphicsTextItem(parent){
 
     //============= set default value for score ==============//
 
-    score = 0;
+    score = 0; //set initaial value
 
     //======================== Draw the score =======================//
 
@@ -22,7 +22,7 @@ Score::Score(QGraphicsItem *parent): QGraphicsTextItem(parent){
 
 void Score::increase(){
 
-    score++;//increase
+    score++; //increase
     setPlainText(QString("Score: ") + QString::number(score)); // Score: 1
 }
 

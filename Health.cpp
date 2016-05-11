@@ -10,7 +10,7 @@ Health::Health(QGraphicsItem *parent): QGraphicsTextItem(parent){
 
    //============= set default value for health ==============//
 
-    health = 5;
+    health = 5; // set initial health
 
     //======================== Draw the Health =======================//
 
@@ -28,10 +28,10 @@ void Health::decrease(){
     setPlainText(QString("Health: ") + QString::number(health)); // Health: 2
         if (health == 0)
         {
-            game->removeItem();
+            game->removeItem(); // call the function remove Item in main window
             Dialog Dialog;
-            Dialog.setModal(true);
-            Dialog.exec();
+            Dialog.setModal(true); //Dialog box for game over
+            Dialog.exec(); //show the dialog box
                //qDebug() << "health 0 ";
         }
 }

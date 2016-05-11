@@ -15,16 +15,16 @@ extern MainWindow * game; // Global
 bullet::bullet(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent)
 {
 
-                //==========================Draw the Bullet =======================//
+                //==========================bullet from PNG =======================//
 
                 setPixmap(QPixmap(":/img/bullet1.png"));
 
                 //================ Create a Timer and Connect the Bullet =============//
 
                 QTimer * timer = new QTimer();
-                connect(timer,SIGNAL(timeout()),this,SLOT(move()));
+                connect(timer,SIGNAL(timeout()),this,SLOT(move())); //connect timer to move slot
 
-                timer->start(33.33);
+                timer->start(33.33); //start timer
                 //qDebug() << "bullet is created";
 }
 
